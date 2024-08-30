@@ -26,6 +26,7 @@ const CommunityBadges = ({
               earned={hasEarned(badge.actions)}
               handleClick={handleClickBadge}
               className="cursor-pointer"
+              active
             />
           ))}
         </div>

@@ -7,6 +7,7 @@ interface BadgeProps extends BadgeType {
   earned: boolean
   handleClick?: (badge: BadgeType) => void
   className?: string
+  active?: boolean
   showRewardDetails?: boolean
 }
 
@@ -28,6 +29,7 @@ const Badge = ({
   handleClick,
   earned,
   className,
+  active = false,
   showRewardDetails = false,
 }: BadgeProps) => {
   const numActions = actions?.length
@@ -69,8 +71,21 @@ const Badge = ({
             <AvatarFallback>{getInitialsFromTitle(title)}</AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex w-full flex-grow items-center justify-center rounded-b-xl bg-success-tertiary p-2">
-          <p className="text-xs text-success-primary">{reward}</p>
+        <div
+          className={cn(
+            'flex w-full flex-grow items-center justify-center rounded-b-xl bg-success-tertiary p-2',
+            {
+              'bg-elevation-2 text-text-secondary': !active,
+            },
+          )}
+        >
+          <p
+            className={cn('text-xs text-success-primary', {
+              'text-text-secondary': !active,
+            })}
+          >
+            {reward}
+          </p>
         </div>
       </div>
       {showRewardDetails ? (

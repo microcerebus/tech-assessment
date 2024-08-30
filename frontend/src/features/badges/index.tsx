@@ -134,6 +134,7 @@ const Badges = ({ badges, activeBadge, handleClickBadge }: BadgesProps) => {
               <Badge
                 {...badge}
                 earned={hasEarned(badge.actions)}
+                active={activeBadgeIndex === index}
                 showRewardDetails={activeBadgeIndex === index}
                 handleClick={handleClickBadge}
                 className="cursor-pointer"
