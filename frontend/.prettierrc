@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "plugins": ["prettier-plugin-pkg", "prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": ["tsconfig.json"],
+      "options": {
+        "parser": "json"
+      }
+    }
+  ],
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "bracketSameLine": false,
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "requirePragma": false,
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "tailwindFunctions": ["cva", "clsx", "cn", "tw", "twMerge"],
+  "trailingComma": "all",
+  "useTabs": false,
+  "vueIndentScriptAndStyle": true
+}

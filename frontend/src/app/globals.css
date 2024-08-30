@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Color */
+    --brand-50: #e0eceb;
+    --brand-100: #b3d0cd;
+    --brand-200: #80b1ac;
+    --brand-300: #4d918a;
+    --brand-400: #267a71;
+    --brand-500: #006258;
+    --brand-600: #005a50;
+    --brand-700: #005047;
+    --brand-800: #00463d;
+    --brand-900: #00342d;
+    --brand-A100: #6cffe3;
+    --brand-A200: #39ffda;
+    --brand-A400: #06ffd0;
+    --brand-A700: #00ebbf;
+
+    --primary: var(--brand-500);
+    --primary-hover: var(--brand-700);
+    --primary-disabled: rgba(62, 143, 119, 0.2);
+
+    --secondary: #000000;
+
+    --text-primary: #0c0f0e;
+    --text-secondary: #3b3b3b;
+    --text-disabled: #abafb4;
+    --text-button: #ffffff;
+
+    --elevation-bg: #f9f9f9;
+    --elevation-1: #f1f1f1;
+    --elevation-2: #e8e8e8;
+    --elevation-3: #dfdfdf;
+
+    --success-primary: #28a745;
+    --success-secondary: rgba(40, 167, 69, 0.5);
+    --success-tertiary: rgba(40, 167, 69, 0.25);
+
+    --error-primary: #f44336;
+    --warning-primary: #ffc107;
+
+    --background: var(--elevation-bg);
+    --foreground: var(--text-primary);
+    --card: var(--elevation-3);
+    --card-foreground: var(--text-primary);
+    --popover: var(--elevation-1);
+    --popover-foreground: var(--text-primary);
+    --primary-foreground: var(--text-primary);
+    --secondary-foreground: var(--text-secondary);
+    --muted: var(--elevation-2);
+    --muted-foreground: var(--text-disabled);
+    --accent: var(--elevation-2);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--error-primary);
+    --destructive-foreground: var(--text-button);
+    --border: var(--elevation-2);
+    --input: var(--elevation-2);
+    --ring: var(--text-secondary);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --primary-hover: var(--brand-200);
+    --primary-disabled: rgba(0, 98, 88, 0.2);
+
+    --secondary: #ffffff;
+
+    --text-primary: #f7f7f8;
+    --text-secondary: #abafb4;
+    --text-disabled: #abafb4;
+    --text-button: #ffffff;
+
+    --elevation-bg: #080a0b;
+    --elevation-1: #0c0e10;
+    --elevation-2: #111315;
+    --elevation-3: #16181a;
+
+    --success-primary: #27d17f;
+    --success-secondary: rgba(39, 209, 127, 0.5);
+    --sucess-tertiary: rgba(39, 209, 127, 0.1);
+
+    --error-primary: #f44336;
+    --warning-primary: #ffc107;
+
+    --background: var(--elevation-bg);
+    --foreground: var(--text-primary);
+    --card: var(--elevation-3);
+    --card-foreground: var(--text-primary);
+    --popover: var(--elevation-2);
+    --popover-foreground: var(--text-primary);
+    --primary-foreground: var(--text-primary);
+    --secondary-foreground: var(--text-secondary);
+    --muted: var(--elevation-2);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--elevation-2);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--error-primary);
+    --destructive-foreground: var(--text-button);
+    --border: var(--elevation-2);
+    --input: var(--elevation-2);
+    --ring: var(--text-secondary);
+  }
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--elevation-2);
+  border-radius: 24px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--elevation-3);
+  margin-block: 12px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

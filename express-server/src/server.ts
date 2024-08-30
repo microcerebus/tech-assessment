@@ -28,6 +28,7 @@ const generateFakeDecoded = (): any => {
   return {
     to: generateFakeAddress(),
     sender: generateFakeAddress(),
+    method: generateFakeMethod(),
     amount0In: isSwapIn0 ? amountIn : "0",
     amount1In: isSwapIn0 ? "0" : amountIn,
     amount0Out: isSwapIn0 ? "0" : amountOut,

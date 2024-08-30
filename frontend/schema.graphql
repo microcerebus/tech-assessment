@@ -1,0 +1,719 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""ordering argument of a cursor"""
+enum cursor_ordering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
+scalar jsonb
+
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""
+columns and relationships of "logs"
+"""
+type logs {
+  address: String!
+  block_number: numeric!
+  block_timestamp: timestamptz!
+  decoded(
+    """JSON select path"""
+    path: String
+  ): jsonb!
+  from: String!
+  to: String!
+  transaction_hash: String!
+}
+
+"""
+aggregated selection of "logs"
+"""
+type logs_aggregate {
+  aggregate: logs_aggregate_fields
+  nodes: [logs!]!
+}
+
+"""
+aggregate fields of "logs"
+"""
+type logs_aggregate_fields {
+  avg: logs_avg_fields
+  count(columns: [logs_select_column!], distinct: Boolean): Int!
+  max: logs_max_fields
+  min: logs_min_fields
+  stddev: logs_stddev_fields
+  stddev_pop: logs_stddev_pop_fields
+  stddev_samp: logs_stddev_samp_fields
+  sum: logs_sum_fields
+  var_pop: logs_var_pop_fields
+  var_samp: logs_var_samp_fields
+  variance: logs_variance_fields
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input logs_append_input {
+  decoded: jsonb
+}
+
+"""aggregate avg on columns"""
+type logs_avg_fields {
+  block_number: Float
+}
+
+"""
+Boolean expression to filter rows from the table "logs". All fields are combined with a logical 'AND'.
+"""
+input logs_bool_exp {
+  _and: [logs_bool_exp!]
+  _not: logs_bool_exp
+  _or: [logs_bool_exp!]
+  address: String_comparison_exp
+  block_number: numeric_comparison_exp
+  block_timestamp: timestamptz_comparison_exp
+  decoded: jsonb_comparison_exp
+  from: String_comparison_exp
+  to: String_comparison_exp
+  transaction_hash: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "logs"
+"""
+enum logs_constraint {
+  """
+  unique or primary key constraint on columns "transaction_hash"
+  """
+  logs_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input logs_delete_at_path_input {
+  decoded: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input logs_delete_elem_input {
+  decoded: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input logs_delete_key_input {
+  decoded: String
+}
+
+"""
+input type for incrementing numeric columns in table "logs"
+"""
+input logs_inc_input {
+  block_number: numeric
+}
+
+"""
+input type for inserting data into table "logs"
+"""
+input logs_insert_input {
+  address: String
+  block_number: numeric
+  block_timestamp: timestamptz
+  decoded: jsonb
+  from: String
+  to: String
+  transaction_hash: String
+}
+
+"""aggregate max on columns"""
+type logs_max_fields {
+  address: String
+  block_number: numeric
+  block_timestamp: timestamptz
+  from: String
+  to: String
+  transaction_hash: String
+}
+
+"""aggregate min on columns"""
+type logs_min_fields {
+  address: String
+  block_number: numeric
+  block_timestamp: timestamptz
+  from: String
+  to: String
+  transaction_hash: String
+}
+
+"""
+response of any mutation on the table "logs"
+"""
+type logs_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [logs!]!
+}
+
+"""
+on_conflict condition type for table "logs"
+"""
+input logs_on_conflict {
+  constraint: logs_constraint!
+  update_columns: [logs_update_column!]! = []
+  where: logs_bool_exp
+}
+
+"""Ordering options when selecting data from "logs"."""
+input logs_order_by {
+  address: order_by
+  block_number: order_by
+  block_timestamp: order_by
+  decoded: order_by
+  from: order_by
+  to: order_by
+  transaction_hash: order_by
+}
+
+"""primary key columns input for table: logs"""
+input logs_pk_columns_input {
+  transaction_hash: String!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input logs_prepend_input {
+  decoded: jsonb
+}
+
+"""
+select columns of table "logs"
+"""
+enum logs_select_column {
+  """column name"""
+  address
+
+  """column name"""
+  block_number
+
+  """column name"""
+  block_timestamp
+
+  """column name"""
+  decoded
+
+  """column name"""
+  from
+
+  """column name"""
+  to
+
+  """column name"""
+  transaction_hash
+}
+
+"""
+input type for updating data in table "logs"
+"""
+input logs_set_input {
+  address: String
+  block_number: numeric
+  block_timestamp: timestamptz
+  decoded: jsonb
+  from: String
+  to: String
+  transaction_hash: String
+}
+
+"""aggregate stddev on columns"""
+type logs_stddev_fields {
+  block_number: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type logs_stddev_pop_fields {
+  block_number: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type logs_stddev_samp_fields {
+  block_number: Float
+}
+
+"""
+Streaming cursor of the table "logs"
+"""
+input logs_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: logs_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input logs_stream_cursor_value_input {
+  address: String
+  block_number: numeric
+  block_timestamp: timestamptz
+  decoded: jsonb
+  from: String
+  to: String
+  transaction_hash: String
+}
+
+"""aggregate sum on columns"""
+type logs_sum_fields {
+  block_number: numeric
+}
+
+"""
+update columns of table "logs"
+"""
+enum logs_update_column {
+  """column name"""
+  address
+
+  """column name"""
+  block_number
+
+  """column name"""
+  block_timestamp
+
+  """column name"""
+  decoded
+
+  """column name"""
+  from
+
+  """column name"""
+  to
+
+  """column name"""
+  transaction_hash
+}
+
+input logs_updates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: logs_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: logs_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: logs_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: logs_delete_key_input
+
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: logs_inc_input
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: logs_prepend_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: logs_set_input
+
+  """filter the rows which have to be updated"""
+  where: logs_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type logs_var_pop_fields {
+  block_number: Float
+}
+
+"""aggregate var_samp on columns"""
+type logs_var_samp_fields {
+  block_number: Float
+}
+
+"""aggregate variance on columns"""
+type logs_variance_fields {
+  block_number: Float
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "logs"
+  """
+  delete_logs(
+    """filter the rows which have to be deleted"""
+    where: logs_bool_exp!
+  ): logs_mutation_response
+
+  """
+  delete single row from the table: "logs"
+  """
+  delete_logs_by_pk(transaction_hash: String!): logs
+
+  """
+  insert data into the table: "logs"
+  """
+  insert_logs(
+    """the rows to be inserted"""
+    objects: [logs_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: logs_on_conflict
+  ): logs_mutation_response
+
+  """
+  insert a single row into the table: "logs"
+  """
+  insert_logs_one(
+    """the row to be inserted"""
+    object: logs_insert_input!
+
+    """upsert condition"""
+    on_conflict: logs_on_conflict
+  ): logs
+
+  """
+  update data of the table: "logs"
+  """
+  update_logs(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: logs_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: logs_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: logs_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: logs_delete_key_input
+
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: logs_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: logs_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: logs_set_input
+
+    """filter the rows which have to be updated"""
+    where: logs_bool_exp!
+  ): logs_mutation_response
+
+  """
+  update single row of the table: "logs"
+  """
+  update_logs_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: logs_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: logs_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: logs_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: logs_delete_key_input
+
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: logs_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: logs_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: logs_set_input
+    pk_columns: logs_pk_columns_input!
+  ): logs
+
+  """
+  update multiples rows of table: "logs"
+  """
+  update_logs_many(
+    """updates to execute, in order"""
+    updates: [logs_updates!]!
+  ): [logs_mutation_response]
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type query_root {
+  """
+  fetch data from the table: "logs"
+  """
+  logs(
+    """distinct select on columns"""
+    distinct_on: [logs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [logs_order_by!]
+
+    """filter the rows returned"""
+    where: logs_bool_exp
+  ): [logs!]!
+
+  """
+  fetch aggregated fields from the table: "logs"
+  """
+  logs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [logs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [logs_order_by!]
+
+    """filter the rows returned"""
+    where: logs_bool_exp
+  ): logs_aggregate!
+
+  """fetch data from the table: "logs" using primary key columns"""
+  logs_by_pk(transaction_hash: String!): logs
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "logs"
+  """
+  logs(
+    """distinct select on columns"""
+    distinct_on: [logs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [logs_order_by!]
+
+    """filter the rows returned"""
+    where: logs_bool_exp
+  ): [logs!]!
+
+  """
+  fetch aggregated fields from the table: "logs"
+  """
+  logs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [logs_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [logs_order_by!]
+
+    """filter the rows returned"""
+    where: logs_bool_exp
+  ): logs_aggregate!
+
+  """fetch data from the table: "logs" using primary key columns"""
+  logs_by_pk(transaction_hash: String!): logs
+
+  """
+  fetch data from the table in a streaming manner: "logs"
+  """
+  logs_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [logs_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: logs_bool_exp
+  ): [logs!]!
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
